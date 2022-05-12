@@ -50,7 +50,7 @@ import org.xml.sax.SAXException;
  * <li>Devolver un artículo</li>
  * <li>Mostrar Almacén (toString)</li>
  * </ul>
- * </p>
+ * 
  * 
  * @author Javier Sánchez López
  * 
@@ -59,21 +59,24 @@ import org.xml.sax.SAXException;
 
 public class Almacen {
 
+  /**
+   * Arraylist donde se almacenan artículos de la clase Articulo
+   */
   private List<Articulo> almacen = new ArrayList<>();
 
   /**
    * 
    * Añade artículos al arraylist
    * 
-   * @param nombre
-   * @param marca
-   * @param precioDeCompra
-   * @param precioDeVenta
-   * @param numeroDeUnidades
-   * @param stockDeSeguridad
-   * @param stockMaximo
-   * @throws AlmacenNombreMarcaException
-   * @throws ArticuloIllegalErrorArgumentException
+   * @param nombre Nombre del artículo que se va a añadir
+   * @param marca Marca del artículo que se va a añadir
+   * @param precioDeCompra Precio de compra del artículo que se va a añadir
+   * @param precioDeVenta Precio de venta del artículo que se va a añadir
+   * @param numeroDeUnidades Número de unidades del artículo que se va a añadir
+   * @param stockDeSeguridad Cantidad máxima que tiene que haber del artículo
+   * @param stockMaximo Cantidad máxima que puede haber del artículo
+   * @throws AlmacenNombreMarcaException Se lanza si la marca y nombre pasados son iguales
+   * @throws ArticuloIllegalErrorArgumentException Se lanza si falta por pasar algún par
    */
   void add(String nombre, String marca, double precioDeCompra, double precioDeVenta,
       int numeroDeUnidades, int stockDeSeguridad, int stockMaximo)
@@ -88,11 +91,11 @@ public class Almacen {
 
   /**
    * 
-   * Lanza una excepción si a la hora de añadir un artículo el nombre y la marca son iguales.
+   * Lanza una excepción si el nombre y artículo pasados son iguales.
    * 
-   * @param nombre
-   * @param marca
-   * @throws AlmacenNombreMarcaException
+   * @param nombre Nombre del artículo
+   * @param marca Marca del artículo
+   * @throws AlmacenNombreMarcaException Se lanza si la marca y nombre pasados son iguales
    */
   private void lanzaExcepcionSiNombreYMarca2ProductosSonIguales(String nombre, String marca)
       throws AlmacenNombreMarcaException {
@@ -105,10 +108,10 @@ public class Almacen {
 
   /**
    * 
-   * Borra un artículo que existe en el almacén, si no existe se lanza excepción.
+   * Borra un artículo que existe en el almacén con el código pasado
    * 
-   * @param codigo
-   * @throws CodigoNotFound
+   * @param codigo Codigo del artículo a comprobar
+   * @throws CodigoNotFound Se lanza si el código pasado no corresponde a ningún artículo
    */
   public void delete(int codigo) throws CodigoNotFound {
     if (!containsCod(codigo)) {
@@ -121,8 +124,8 @@ public class Almacen {
    *
    * Comprueba que el codigo pasado hace referencia a un artículo que existe en el almacén.
    * 
-   * @param codigo
-   * @return
+   * @param codigo Código del artículo a comprobar
+   * @return Devuelve falso si el código no existe y verdadero si existe.
    */
   private boolean containsCod(int codigo) {
     for (Articulo art : almacen) {
@@ -138,11 +141,12 @@ public class Almacen {
    * 
    * Incrementa las unidades de un artículo que exista en el almacén.
    * 
-   * @param codigo
-   * @param unidades
-   * @throws CodigoNotFound
+   * @param codigo Código del artículo a incrementar
+   * @param unidades Numero de unidades a incrementar
+   * @throws CodigoNotFound Se lanza si el código pasado no corresponde a ningún artículo
+   * @throws ArticuloIllegalErrorArgumentException 
    */
-  public void addUnidades(int codigo, int unidades) throws CodigoNotFound {
+  public void addUnidades(int codigo, int unidades) throws CodigoNotFound, ArticuloIllegalErrorArgumentException {
     for (Articulo art : almacen) {
       if (codigo == art.getCodigo()) {
         art.addUnidades(unidades);
@@ -156,13 +160,14 @@ public class Almacen {
    * 
    * Decrementa las unidades de un artículo que exista en el almacén.
    * 
-   * @param codigo
-   * @param unidades
-   * @throws CodigoNotFound
-   * @throws ArticuloStockException
+   * @param codigo Código del artículo a decrementar
+   * @param unidades Cantidad de unidades a decrementar
+   * @throws CodigoNotFound Se lanza si el código pasado no corresponde a ningún artículo
+   * @throws ArticuloStockException Se lanza si el stock de seguridad es mayor que el máximo
+   * @throws ArticuloIllegalErrorArgumentException 
    */
   public void removeUnidades(int codigo, int unidades)
-      throws CodigoNotFound, ArticuloStockException {
+      throws CodigoNotFound, ArticuloStockException, ArticuloIllegalErrorArgumentException {
     for (Articulo art : almacen) {
       if (codigo == art.getCodigo()) {
         art.eliminarUnidades(unidades);
@@ -177,17 +182,17 @@ public class Almacen {
    * 
    * Modifica cualquier parámetro de un artículo existente en el almacén.
    * 
-   * @param codigo
-   * @param nombre
-   * @param marca
-   * @param precioDeCompra
-   * @param precioDeVenta
-   * @param numeroDeUnidades
-   * @param stockDeSeguridad
-   * @param StockMaximo
-   * @throws AlmacenNombreMarcaException
-   * @throws CodigoNotFound
-   * @throws ArticuloIllegalErrorArgumentException
+   * @param codigo Código del artículo a modificar
+   * @param nombre Nombre del artículo que se va a añadir
+   * @param marca Marca del artículo que se va a añadir
+   * @param precioDeCompra Precio de compra del artículo que se va a añadir
+   * @param precioDeVenta Precio de venta del artículo que se va a añadir
+   * @param numeroDeUnidades Número de unidades del artículo que se va a añadir
+   * @param stockDeSeguridad Cantidad máxima que tiene que haber del artículo
+   * @param StockMaximo Cantidad máxima que puede haber del artículo
+   * @throws AlmacenNombreMarcaException Se lanza si la marca y nombre pasados son iguales
+   * @throws ArticuloIllegalErrorArgumentException Se lanza si falta por pasar algún parámetro
+   * @throws CodigoNotFound Se lanza si el código pasado no corresponde a ningún artículo
    */
   public void modificarArticulo(int codigo, String nombre, String marca, double precioDeCompra,
       double precioDeVenta, int numeroDeUnidades, int stockDeSeguridad, int StockMaximo)
@@ -210,9 +215,9 @@ public class Almacen {
    * 
    * Devuelve un artículo pasándole el código si no existe da error
    * 
-   * @param codigo
-   * @return
-   * @throws CodigoNotFound
+   * @param codigo Código del artículo a mostrar
+   * @return Devuelve un artículo
+   * @throws CodigoNotFound Se lanza si el código pasado no corresponde a ningún artículo
    */
   public Articulo get(int codigo) throws CodigoNotFound {
     for (Articulo articulo : almacen) {
@@ -227,8 +232,8 @@ public class Almacen {
    * 
    * Guarda el contenido del almacén en un archivo json
    * 
-   * @param filename
-   * @throws IOException
+   * @param filename Nombre del archivo para guardar el contenido
+   * @throws IOException Se lanza cuando hay un error en la escritura
    */
   public void save(String filename) throws IOException {
 
@@ -246,8 +251,8 @@ public class Almacen {
    * 
    * Carga el contenido de un archivo json al almacén.
    * 
-   * @param filename
-   * @throws IOException
+   * @param filename Nombre del archivo para cargar el contenido
+   * @throws IOException Se lanza cuando hay un error en la escritura
    */
   public void load(String filename) throws IOException {
 
@@ -271,7 +276,7 @@ public class Almacen {
    * 
    * Crea un archivo XML con el contenido del almacén
    * 
-   * @param archive
+   * @param archive Nombre del archivo en el que se guarda el almacen
    * @throws ParserConfigurationException 
    * @throws TransformerFactoryConfigurationError 
    * @throws TransformerException 
@@ -341,7 +346,7 @@ public class Almacen {
    * 
    * Guarda el contenido del almacén en un archivo XML
    * 
-   * @param filename
+   * @param filename Nombre del archivo del que se carga el almacen
    * @throws IOException
    */
   public void loadFromXml(String filename) throws IOException {

@@ -21,7 +21,7 @@ public class TestAlmacen {
   
   private static Almacen almacen = new Almacen();
   
-  public static void main(String[] args) {
+  public static void main(String[] args) throws ArticuloIllegalErrorArgumentException {
     
     // rellenar almacén con datos aleatorios
     for (int i = 1; i <= 5; i++) {
